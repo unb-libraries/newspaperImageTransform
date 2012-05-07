@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdoc>
+	<binlocations>
+		<imagemagick>
+			<convert>/usr/local/bin/convert</convert>
+		</imagemagick>
+	</binlocations>
+	<completefilestorepath>/etcdata/home/jsanford/np_test_output_archive</completefilestorepath>
+	<processgroup>
+		<enabled>true</enabled>
+		<grouppath>/home/jsanford/np_test/*NB*</grouppath>
+		<groupextension>.jpg</groupextension>
+		<output>
+			<item>
+				<actions>
+					<step>-geometry 320x85</step>
+					<step>-unsharp 0.5</step>
+				</actions>
+				<outputpath>/etcdata/home/jsanford/np_test_output/NB</outputpath>
+				<outputextension>.jpg</outputextension>
+			</item>
+			<item>
+				<actions>
+					<step>-geometry 320x85</step>
+					<step>-unsharp 0.5</step>
+				</actions>
+				<outputpath>/etcdata/home/jsanford/np_test_output/NB</outputpath>
+				<outputextension>.gif</outputextension>
+			</item>
+		</output>
+	</processgroup>
+	<processgroup>
+		<enabled>true</enabled>
+		<grouppath>/home/jsanford/np_test/*NC*</grouppath>
+		<groupextension>.jpg</groupextension>
+		<output>
+			<item>
+				<actions>
+					<step>-geometry 320x85</step>
+					<step>-unsharp 0.5</step>
+				</actions>
+				<outputpath>/etcdata/home/jsanford/np_test_output/NC</outputpath>
+				<outputextension>.jpg</outputextension>
+			</item>
+		</output>
+	</processgroup>
+	<processglobal>
+		<globalpre>
+			<globalaction>-colorspace sRGB</globalaction>
+		</globalpre>
+	</processglobal>
+</configdoc>

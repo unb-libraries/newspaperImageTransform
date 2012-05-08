@@ -18,29 +18,10 @@
 				</actions>
 				<outputpath>/etcdata/home/jsanford/np_test_output/NB</outputpath>
 				<outputextension>.jpg</outputextension>
-			</item>
-			<item>
-				<actions>
-					<step>-geometry 320x85</step>
-					<step>-unsharp 0.5</step>
-				</actions>
-				<outputpath>/etcdata/home/jsanford/np_test_output/NB</outputpath>
-				<outputextension>.gif</outputextension>
-			</item>
-		</output>
-	</processgroup>
-	<processgroup>
-		<enabled>true</enabled>
-		<grouppath>/home/jsanford/np_test/*NC*</grouppath>
-		<groupextension>.jpg</groupextension>
-		<output>
-			<item>
-				<actions>
-					<step>-geometry 320x85</step>
-					<step>-unsharp 0.5</step>
-				</actions>
-				<outputpath>/etcdata/home/jsanford/np_test_output/NC</outputpath>
-				<outputextension>.jpg</outputextension>
+				<evenpageactions>
+					<evenstep>-rotate 90</evenstep>
+				</evenpageactions>
+				<oddpageactions></oddpageactions>
 			</item>
 		</output>
 	</processgroup>

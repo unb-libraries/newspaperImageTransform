@@ -2,6 +2,7 @@ import glob
 import fnmatch
 import os
 from os.path import basename
+import re
 import subprocess
 import sys
 import xml.dom.minidom
@@ -28,6 +29,15 @@ def mkdir_if_not_exist(dirpath):
         os.makedirs(dirpath)
         return True
     return False
+
+
+# Determine parity of page number
+def get_page_parity(filename):
+    if re.search(".*_.*_.*_[0-9]{3}\.",filename) != None :
+        if re.search(".*_.*_.*_[0-9]{2}[13579]\.",filename) == None :
+            return 'even'
+        return 'odd'
+    return 'unknown'
 
 
 # Globals
@@ -67,12 +77,22 @@ for cur_group in process_groups:
                     for cur_output_step in cur_output_item.getElementsByTagName('step') :
                         cur_steps.append(cur_output_step.firstChild.nodeValue)
 
-                        cur_process_tree.append( {'filename' : active_file_name,
-                                                  'steps' : cur_steps,
-                                                  'relative_path' : relative_file_path,
-                                                  'output_path' : cur_output_item.getElementsByTagName('outputpath')[0].firstChild.nodeValue,
-                                                  'outputfilename' : basename(active_file_name).replace( cur_group.getElementsByTagName('groupextension')[0].firstChild.nodeValue,cur_output_item.getElementsByTagName('outputextension')[0].firstChild.nodeValue)
-                                                  } )
+                    cur_parity_val=get_page_parity(filename)
+
+                    if cur_parity_val == 'even' :
+                        for cur_even_step in cur_output_item.getElementsByTagName('evenstep') :
+                            cur_steps.append(cur_even_step.firstChild.nodeValue)
+
+                    if cur_parity_val == 'odd' :
+                        for cur_odd_step in cur_output_item.getElementsByTagName('oddstep') :
+                            cur_steps.append(cur_odd_step.firstChild.nodeValue)
+
+                    cur_process_tree.append( {'filename' : active_file_name,
+                                              'steps' : cur_steps,
+                                              'relative_path' : relative_file_path,
+                                              'output_path' : cur_output_item.getElementsByTagName('outputpath')[0].firstChild.nodeValue,
+                                              'outputfilename' : basename(active_file_name).replace( cur_group.getElementsByTagName('groupextension')[0].firstChild.nodeValue,cur_output_item.getElementsByTagName('outputextension')[0].firstChild.nodeValue)
+                                              } )
 
 for cur_step in cur_process_tree :
     bin_string = bins['convert'] + ' ' + cur_step['filename'] + ' ' +' '.join(global_actions) + ' ' + ' '.join(cur_step['steps']) + ' ' + cur_step['output_path'] + '/' + cur_step['relative_path'] + '/' + cur_step['outputfilename']

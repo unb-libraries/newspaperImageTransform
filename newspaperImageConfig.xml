@@ -2,32 +2,48 @@
 <configdoc>
 	<binlocations>
 		<imagemagick>
-			<convert>/usr/local/bin/convert</convert>
+			<convert>/usr/bin/convert</convert>
+			<mogrify>/usr/bin/mogrify</mogrify>
 		</imagemagick>
 	</binlocations>
-	<completefilestorepath>/etcdata/home/jsanford/np_test_output_archive</completefilestorepath>
+	<completefilestorepath>/home/jsanford/newspaperImageTransform/Archive</completefilestorepath>
 	<processgroup>
 		<enabled>true</enabled>
-		<grouppath>/home/jsanford/np_test/*NB*</grouppath>
-		<groupextension>.jpg</groupextension>
+		<grouppath>/home/jsanford/newspaperImageTransform/Input/DM</grouppath>
+		<groupextension>.CR2</groupextension>
+		<groupactions>
+			<groupaction>-gravity Center -crop 4477x3187+0+0</groupaction>
+			<groupaction>-rotate 90</groupaction>
+		</groupactions>
 		<output>
 			<item>
-				<actions>
-					<step>-geometry 320x85</step>
-					<step>-unsharp 0.5</step>
-				</actions>
-				<outputpath>/etcdata/home/jsanford/np_test_output/NB</outputpath>
+				<itemdescription>JPG Surrogate</itemdescription>
+				<itemactions>
+					<itemaction>-resize x800</itemaction>
+					<itemaction>-quality 92</itemaction>
+				</itemactions>
+				<outputpath>/home/jsanford/newspaperImageTransform/Output/DM</outputpath>
 				<outputextension>.jpg</outputextension>
-				<evenpageactions>
-					<evenstep>-rotate 90</evenstep>
-				</evenpageactions>
-				<oddpageactions></oddpageactions>
+			</item>
+			<item>
+				<itemdescription>Archival Tiff</itemdescription>
+				<outputpath>/home/jsanford/newspaperImageTransform/TiffArchive/DM</outputpath>
+				<outputextension>.tiff</outputextension>
+			</item>
+			<item>
+				<itemdescription>Abbyy Input Surrogate</itemdescription>
+				<itemactions>
+					<itemaction>-depth 8</itemaction>
+					<itemaction>-colorspace GRAY</itemaction>
+					<itemaction>-contrast-stretch 12%x20%</itemaction>
+					<itemaction>-unsharp 2.0</itemaction>
+				</itemactions>
+				<outputpath>/home/jsanford/newspaperImageTransform/AbbyyInput</outputpath>
+				<outputextension>.tiff</outputextension>
 			</item>
 		</output>
 	</processgroup>
-	<processglobal>
-		<globalpre>
-			<globalaction>-colorspace sRGB</globalaction>
-		</globalpre>
-	</processglobal>
+	<globalactions>
+		<globalevenaction>-rotate 180</globalevenaction>
+	</globalactions>
 </configdoc>

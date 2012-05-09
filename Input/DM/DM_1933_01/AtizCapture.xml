@@ -1,0 +1,38 @@
+<AtizMessage>
+    <header>
+        <from>
+              <library></library>
+              <station></station>
+        </from>
+        <to></to>
+        <date></date>
+    </header>
+    <content>
+        <meta>
+            <title>DM_1933_01</title>
+            <subtitle></subtitle>
+            <author>
+                <firstName></firstName>
+                <middleName></middleName>
+                <lastName></lastName>
+                <displayName></displayName>
+            </author>
+            <languageCode format="ISO639-2"></languageCode>
+            <yearPublished></yearPublished>
+        </meta>
+        <file>
+            <contentNum></contentNum>
+            <type></type>
+            <size></size>
+            <name></name>
+            <originalName></originalName>
+            <creationDate></creationDate>
+            <digitizer>
+                     <firstName></firstName>
+                     <lastName></lastName>
+                     <username></username>
+            </digitizer>
+            <capturedBy></capturedBy>
+        </file>
+    </content>
+</AtizMessage>

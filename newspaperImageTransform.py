@@ -59,8 +59,8 @@ def generate_tmp_filename(filename,global_temp_directory,cur_file_extension) :
 
 def convert_tmp_tiff(convert_bin,tmp_filename,steps,string_to_use) :
     if len(steps) > 0 :
-        log_write("Applying Transform : " + convert_cmd_string)
         convert_cmd_string = convert_bin + ' ' + tmp_filename + ' -compress None -strip ' + ' '.join(steps) + ' ' + tmp_filename
+        log_write("Applying Global / Group Transform [" + string_to_use + "] : " + convert_cmd_string)
         subprocess.call(convert_cmd_string, shell=True)
         return True
     return False
@@ -152,6 +152,9 @@ for cur_step in cur_process_tree :
 
     if last_tmps_generated_for != cur_step['filename'] :
 
+        if last_tmps_generated_for != '' :
+            log_write("Finished Processing : " + last_tmps_generated_for + "\n")
+        log_write("Starting Processing : " + cur_step['filename'])
         # Delete last tmp file.
         delete_if_exists(generate_tmp_filename(last_tmps_generated_for,global_temp_directory,cur_file_extension))
 
@@ -172,8 +175,7 @@ for cur_step in cur_process_tree :
     # Generate final output for item.
     bin_string = bins['convert'] + ' ' + tmp_filename + ' ' + ' '.join(cur_step['item-actions']) + ' ' + cur_step['output_path'] + '/' + cur_step['relative_path'] + '/' + cur_step['outputfilename']
     mkdir_if_not_exist( cur_step['output_path'] + '/' + cur_step['relative_path'] )
-    log_write("Generating " + cur_step['name'] + "Output : " + bin_string)
-    log_write("Item Finished!")
+    log_write("Generating " + cur_step['name'] + " Output : " + bin_string)
     subprocess.call(bin_string, shell=True)
 
 

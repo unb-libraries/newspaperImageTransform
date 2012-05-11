@@ -54,7 +54,7 @@ def get_page_parity(filename):
 
 
 def generate_tmp_filename(filename,global_temp_directory,cur_file_extension) :
-    return global_temp_directory + '/' + basename(filename).replace(cur_file_extension,'.tiff')
+    return global_temp_directory + '/' + basename(filename).replace(cur_file_extension,'.png')
 
 
 def convert_tmp_tiff(convert_bin,tmp_filename,steps) :
@@ -148,28 +148,29 @@ for cur_step in cur_process_tree :
     cur_file_name, cur_file_extension = os.path.splitext(cur_step['filename'])
 
     # Generate temporary filename string
-    tmp_tiff_filename = generate_tmp_filename(cur_step['filename'],global_temp_directory,cur_file_extension)
+    tmp_filename = generate_tmp_filename(cur_step['filename'],global_temp_directory,cur_file_extension)
 
     if last_tmps_generated_for != cur_step['filename'] :
 
         # Delete last tmp file.
         delete_if_exists(generate_tmp_filename(last_tmps_generated_for,global_temp_directory,cur_file_extension))
 
-        # Step 1 (Convert To Tiff)
-        stage1_bin_string = bins['convert'] + ' ' + cur_step['filename'] + ' ' + tmp_tiff_filename
+        # Step 1 (Convert To PNG)
+        stage1_bin_string = bins['convert'] + ' ' + cur_step['filename'] + ' -compress None -strip ' + tmp_filename
         log_write("Generating Global Intermediate : " + stage1_bin_string)
         subprocess.call(stage1_bin_string, shell=True)
 
         # Step 2 (Convert Global/Group Actions)
-        convert_tmp_tiff(bins['convert'],tmp_tiff_filename,cur_step['global-parity-actions'])
-        convert_tmp_tiff(bins['convert'],tmp_tiff_filename,cur_step['global-actions'])
-        convert_tmp_tiff(bins['convert'],tmp_tiff_filename,cur_step['group-parity-actions'])
-        convert_tmp_tiff(bins['convert'],tmp_tiff_filename,cur_step['group-actions'])
+        convert_tmp_tiff(bins['convert'],tmp_filename,cur_step['global-actions'],'global-actions')
+        convert_tmp_tiff(bins['convert'],tmp_filename,cur_step['global-parity-actions'],'global-parity-actions')
+        convert_tmp_tiff(bins['convert'],tmp_filename,cur_step['group-actions'],'group-actions')
+        convert_tmp_tiff(bins['convert'],tmp_filename,cur_step['group-parity-actions'],'group-parity-actions')
+        convert_tmp_tiff(bins['convert'],tmp_filename,cur_step['group-post-actions'],'group-post-actions')
 
         last_tmps_generated_for=cur_step['filename']
 
     # Generate final output for item.
-    bin_string = bins['convert'] + ' ' + tmp_tiff_filename + ' ' + ' '.join(cur_step['item-actions']) + ' ' + cur_step['output_path'] + '/' + cur_step['relative_path'] + '/' + cur_step['outputfilename']
+    bin_string = bins['convert'] + ' ' + tmp_filename + ' ' + ' '.join(cur_step['item-actions']) + ' ' + cur_step['output_path'] + '/' + cur_step['relative_path'] + '/' + cur_step['outputfilename']
     mkdir_if_not_exist( cur_step['output_path'] + '/' + cur_step['relative_path'] )
     log_write("Generating " + cur_step['name'] + "Output : " + bin_string)
     log_write("Item Finished!")

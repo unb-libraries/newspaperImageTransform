@@ -2,33 +2,29 @@
 <configdoc>
 	<binlocations>
 		<imagemagick>
-			<convert>/usr/bin/convert</convert>
-			<mogrify>/usr/bin/mogrify</mogrify>
+			<convert>/usr/local/bin/convert</convert>
 		</imagemagick>
 	</binlocations>
-	<completefilestorepath>/home/jsanford/newspaperImageTransform/Archive</completefilestorepath>
+	<completefilestorepath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/ArchiveOriginal</completefilestorepath>
 	<processgroup>
 		<enabled>true</enabled>
-		<grouppath>/home/jsanford/newspaperImageTransform/Input/DM</grouppath>
+		<grouppath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Input/DM</grouppath>
 		<groupextension>.CR2</groupextension>
 		<groupactions>
-			<groupaction>-gravity Center -crop 4477x3187+0+0</groupaction>
-			<groupaction>-rotate 90</groupaction>
+			<groupaction>-gravity Center -crop 5634x3150+0+0</groupaction>
+			<groupevenaction>-rotate 180</groupevenaction>
+			<grouppostaction>-gravity Center -crop 4634x3150+0+0</grouppostaction>
+			<grouppostaction>-rotate 90</grouppostaction>
 		</groupactions>
 		<output>
 			<item>
 				<itemdescription>JPG Surrogate</itemdescription>
 				<itemactions>
-					<itemaction>-resize x800</itemaction>
-					<itemaction>-quality 92</itemaction>
+					<itemaction>-resize 800</itemaction>
+					<itemaction>-quality 82</itemaction>
 				</itemactions>
-				<outputpath>/home/jsanford/newspaperImageTransform/Output/DM</outputpath>
+				<outputpath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/OutputJPG/DM</outputpath>
 				<outputextension>.jpg</outputextension>
-			</item>
-			<item>
-				<itemdescription>Archival Tiff</itemdescription>
-				<outputpath>/home/jsanford/newspaperImageTransform/TiffArchive/DM</outputpath>
-				<outputextension>.tiff</outputextension>
 			</item>
 			<item>
 				<itemdescription>Abbyy Input Surrogate</itemdescription>
@@ -36,14 +32,20 @@
 					<itemaction>-depth 8</itemaction>
 					<itemaction>-colorspace GRAY</itemaction>
 					<itemaction>-contrast-stretch 12%x20%</itemaction>
-					<itemaction>-unsharp 2.0</itemaction>
+					<itemaction>-unsharp 1.0</itemaction>
+					<itemaction>-compress None</itemaction>
 				</itemactions>
-				<outputpath>/home/jsanford/newspaperImageTransform/AbbyyInput</outputpath>
-				<outputextension>.tiff</outputextension>
+				<outputpath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/OutputAbbyy/DM</outputpath>
+				<outputextension>.png</outputextension>
+			</item>
+			<item>
+				<itemdescription>Archival PNG</itemdescription>
+				<itemactions>
+					<itemaction>-compress None</itemaction>
+				</itemactions>
+				<outputpath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/ArchiveOriginal/DM</outputpath>
+				<outputextension>.png</outputextension>
 			</item>
 		</output>
 	</processgroup>
-	<globalactions>
-		<globalevenaction>-rotate 180</globalevenaction>
-	</globalactions>
 </configdoc>

@@ -57,10 +57,10 @@ def generate_tmp_filename(filename,global_temp_directory,cur_file_extension) :
     return global_temp_directory + '/' + basename(filename).replace(cur_file_extension,'.png')
 
 
-def convert_tmp_tiff(convert_bin,tmp_filename,steps) :
+def convert_tmp_tiff(convert_bin,tmp_filename,steps,string_to_use) :
     if len(steps) > 0 :
-        convert_cmd_string = convert_bin + ' ' + tmp_filename + ' ' + ' '.join(steps) + ' ' + tmp_filename
         log_write("Applying Transform : " + convert_cmd_string)
+        convert_cmd_string = convert_bin + ' ' + tmp_filename + ' -compress None -strip ' + ' '.join(steps) + ' ' + tmp_filename
         subprocess.call(convert_cmd_string, shell=True)
         return True
     return False

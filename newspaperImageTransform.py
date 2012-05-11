@@ -6,12 +6,13 @@ import re
 import subprocess
 import sys
 import tempfile
+from time import localtime, strftime
 import xml.dom.minidom
 from xml.dom.minidom import Node
 
 
 def log_write(msg): 
-    print msg
+    print strftime("%a, %d %b %Y %H:%M:%S", localtime()) + ' | ' + msg
     return True
 
 

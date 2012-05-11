@@ -103,11 +103,14 @@ for cur_group in process_groups:
                     global_parity_actions=[]
                     group_actions=[]
                     group_parity_actions=[]
+                    group_post_actions=[]
 
                     global_actions.extend(global_action_queue)
 
-                    for cur_group_step in cur_group.getElementsByTagName('groupaction') :
-                        group_actions.append(cur_group_step.firstChild.nodeValue)
+                    for cur_group_action in cur_group.getElementsByTagName('groupaction') :
+                        group_actions.append(cur_group_action.firstChild.nodeValue)
+                    for cur_group_post_action in cur_group.getElementsByTagName('grouppostaction') :
+                        group_post_actions.append(cur_group_post_action.firstChild.nodeValue)
 
                     cur_parity_val=get_page_parity(filename)
 
@@ -135,6 +138,7 @@ for cur_group in process_groups:
                                               'item-actions' : item_actions,
                                               'group-actions' : group_actions,
                                               'group-parity-actions' : group_parity_actions,
+                                              'group-post-actions' : group_post_actions,
                                               'global-actions' : global_actions,
                                               'global-parity-actions' : global_parity_actions,
                                               'relative_path' : relative_file_path,

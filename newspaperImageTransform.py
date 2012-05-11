@@ -190,4 +190,3 @@ for cur_file_to_move in unique_list_filter(cur_process_tree) :
     log_write("Finished, Moving Original File To Archive : " + cur_file_to_move['relative_path'])
     # print cur_file_to_move['filename'], full_archive_dir + '/' + basename(cur_file_to_move['filename'])
     # subprocess.call(['mv', cur_file_to_move, global_archive_path])
-

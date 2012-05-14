@@ -5,7 +5,7 @@
 			<convert>/usr/local/bin/convert</convert>
 		</imagemagick>
 	</binlocations>
-	<completefilestorepath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/ArchiveOriginal</completefilestorepath>
+	<completefilestorepath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/OriginalFiles</completefilestorepath>
 	<processgroup>
 		<enabled>true</enabled>
 		<grouppath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Input/DM</grouppath>
@@ -24,7 +24,7 @@
 					<itemaction>-resize 800</itemaction>
 					<itemaction>-quality 82</itemaction>
 				</itemactions>
-				<outputpath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/OutputJPG/DM</outputpath>
+				<outputpath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/JPGOutput</outputpath>
 				<outputextension>.jpg</outputextension>
 			</item>
 			<item>
@@ -36,16 +36,16 @@
 					<itemaction>-unsharp 1.0</itemaction>
 					<itemaction>-compress None</itemaction>
 				</itemactions>
-				<outputpath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/OutputAbbyy/DM</outputpath>
-				<outputextension>.png</outputextension>
+				<outputpath>/home/jsanford/newspaperImageTransform/AbbyyPreInbox</outputpath>
+				<outputextension>.tiff</outputextension>
 			</item>
 			<item>
-				<itemdescription>Archival PNG</itemdescription>
+				<itemdescription>Archival TIFF</itemdescription>
 				<itemactions>
 					<itemaction>-compress None</itemaction>
 				</itemactions>
-				<outputpath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Output/ArchiveOriginal/DM</outputpath>
-				<outputextension>.png</outputextension>
+				<outputpath>/home/jsanford/newspaperImageTransform/TIFFArchive</outputpath>
+				<outputextension>.tiff</outputextension>
 			</item>
 		</output>
 	</processgroup>

@@ -9,6 +9,7 @@
 	<processgroup>
 		<enabled>true</enabled>
 		<grouppath>/home/jsanford/newspaperImageTransform/nfs/Test_newspaper_processor_Input/DM</grouppath>
+		<groupidstring>DM</groupidstring>
 		<groupextension>.CR2</groupextension>
 		<groupactions>
 			<groupaction>-gravity Center -crop 5634x3150+0+0</groupaction>

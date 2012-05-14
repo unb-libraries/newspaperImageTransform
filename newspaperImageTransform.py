@@ -90,6 +90,7 @@ for cur_action in process_groups:
 process_groups=dom.getElementsByTagName('processgroup')
 for cur_group in process_groups:
     if cur_group.getElementsByTagName('enabled')[0].firstChild.nodeValue == 'true' :
+        group_id_string = cur_group.getElementsByTagName('groupidstring')[0].firstChild.nodeValue + '/'
 
         for root, dirnames, filenames in os.walk(cur_group.getElementsByTagName('grouppath')[0].firstChild.nodeValue):
             for filename in fnmatch.filter(filenames, '*' + cur_group.getElementsByTagName('groupextension')[0].firstChild.nodeValue):
@@ -142,6 +143,7 @@ for cur_group in process_groups:
                                               'global-actions' : global_actions,
                                               'global-parity-actions' : global_parity_actions,
                                               'relative_path' : relative_file_path,
+                                              'group-id-string' : group_id_string,
                                               'output_path' : cur_output_item.getElementsByTagName('outputpath')[0].firstChild.nodeValue,
                                               'outputfilename' : basename(active_file_name).replace( cur_group.getElementsByTagName('groupextension')[0].firstChild.nodeValue,cur_output_item.getElementsByTagName('outputextension')[0].firstChild.nodeValue)
                                               } )
@@ -177,16 +179,15 @@ for cur_step in cur_process_tree :
         last_tmps_generated_for=cur_step['filename']
 
     # Generate final output for item.
-    bin_string = bins['convert'] + ' ' + tmp_filename + ' ' + ' '.join(cur_step['item-actions']) + ' ' + cur_step['output_path'] + '/' + cur_step['relative_path'] + '/' + cur_step['outputfilename']
-    mkdir_if_not_exist( cur_step['output_path'] + '/' + cur_step['relative_path'] )
+    bin_string = bins['convert'] + ' ' + tmp_filename + ' ' + ' '.join(cur_step['item-actions']) + ' ' + cur_step['output_path'] + '/' + cur_step['group-id-string'] + cur_step['relative_path'] + '/' + cur_step['outputfilename']
+    mkdir_if_not_exist( cur_step['output_path'] + '/' + cur_step['group-id-string'] + cur_step['relative_path'] )
     log_write("Generating " + cur_step['name'] + " Output : " + bin_string)
     subprocess.call(bin_string, shell=True)
 
 
 # Move file to processed directory. 
 for cur_file_to_move in unique_list_filter(cur_process_tree) :
-    full_archive_dir = global_archive_path + '/' + cur_file_to_move['relative_path']
+    full_archive_dir = global_archive_path + '/' + cur_file_to_move['group-id-string'] + cur_file_to_move['relative_path']
     mkdir_if_not_exist(full_archive_dir)
     log_write("Finished, Moving Original File To Archive : " + cur_file_to_move['relative_path'])
-    # print cur_file_to_move['filename'], full_archive_dir + '/' + basename(cur_file_to_move['filename'])
-    # subprocess.call(['mv', cur_file_to_move, global_archive_path])
+    subprocess.call(['mv', cur_file_to_move['filename'], full_archive_dir])

@@ -1,18 +1,20 @@
 import glob
 import fnmatch
+import logging
 import os
 from os.path import basename
 import re
 import subprocess
 import sys
 import tempfile
+import time
 from time import localtime, strftime
 import xml.dom.minidom
 from xml.dom.minidom import Node
 
 
 def log_write(msg): 
-    print strftime("%a, %d %b %Y %H:%M:%S", localtime()) + ' | ' + msg
+    logging.info( '| ' + msg)
     return True
 
 
@@ -65,6 +67,7 @@ def convert_tmp_tiff(convert_bin,tmp_filename,steps,string_to_use) :
         return True
     return False
 
+logging.basicConfig(filename='processor.log',level=logging.DEBUG,format='%(asctime)s %(message)s')
 
 # Globals
 cur_process_tree = []
@@ -149,9 +152,13 @@ for cur_group in process_groups:
                                               } )
 
 last_tmps_generated_for=''
+cur_item_start_time=time.time()
 
 for cur_step in cur_process_tree :
     cur_file_name, cur_file_extension = os.path.splitext(cur_step['filename'])
+
+    # Get ID to use going forward
+    
 
     # Generate temporary filename string
     tmp_filename = generate_tmp_filename(cur_step['filename'],global_temp_directory,cur_file_extension)
@@ -159,7 +166,8 @@ for cur_step in cur_process_tree :
     if last_tmps_generated_for != cur_step['filename'] :
 
         if last_tmps_generated_for != '' :
-            log_write("Finished Processing : " + last_tmps_generated_for + "\n")
+            log_write("Finished Processing : " + last_tmps_generated_for + " (" + str(time.time() - cur_item_start_time) + "s)\n")
+            cur_item_start_time=time.time()
         log_write("Starting Processing : " + cur_step['filename'])
         # Delete last tmp file.
         delete_if_exists(generate_tmp_filename(last_tmps_generated_for,global_temp_directory,cur_file_extension))
@@ -190,4 +198,4 @@ for cur_file_to_move in unique_list_filter(cur_process_tree) :
     full_archive_dir = global_archive_path + '/' + cur_file_to_move['group-id-string'] + cur_file_to_move['relative_path']
     mkdir_if_not_exist(full_archive_dir)
     log_write("Finished, Moving Original File To Archive : " + cur_file_to_move['relative_path'])
-    subprocess.call(['mv', cur_file_to_move['filename'], full_archive_dir])
+    # subprocess.call(['mv', cur_file_to_move['filename'], full_archive_dir])
